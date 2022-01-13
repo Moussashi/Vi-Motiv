@@ -8,7 +8,6 @@ html {
   background-image: linear-gradient(315deg, #b8c6db 0%, #f5f7fa 100%);;
   background-repeat: no-repeat;
   width: 100%;
-  height: 100%;
 }
 
 #app {
