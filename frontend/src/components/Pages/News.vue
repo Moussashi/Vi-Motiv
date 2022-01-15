@@ -33,7 +33,7 @@ export default {
     methods: {
          async getArticle() {
 
-            await fetch('https://newsapi.org/v2/everything?q=tesla&from=2021-12-12&sortBy=publishedAt&apiKey=99a940e7327e4be7bccbdf507eb0df2e')
+            await fetch('https://newsapi.org/v2/everything?q=tesla&from=2021-12-14&sortBy=publishedAt&apiKey=99a940e7327e4be7bccbdf507eb0df2e')
                 .then(response => {
                     if (response.ok) {
                         return response.json()

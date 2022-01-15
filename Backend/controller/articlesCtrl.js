@@ -1,4 +1,5 @@
  const mysql = require('mysql')
+ const connection = require('./config')
 
  const pool = mysql.createPool({
      connectionLimit: 20,
@@ -19,7 +20,6 @@
              if (!err) {
                  res.header()
                  res.send(rows)
-                 console.log('here');
              } else {
                  res.status(401).json({
                      message: 'error in query'
@@ -29,6 +29,43 @@
      })
  }
 
+ const getOneArticle = async (req, res ) => {
+     pool.getConnection((err, connection) => {
+         if (err) throw err
+
+         connection.query('SELECT * from Articles WHERE id = ?', [req.params.id], (err, rows) => {
+             connection.release()
+
+             if (!err) {
+                 res.send(rows)
+             } else {
+                 res.status(401).json({
+                     message: 'problem finding the one article'
+                 })
+             }
+         })
+     })
+ }
+ const deleteOneArticle = async (req, res ) => {
+     pool.getConnection((err, connection) => {
+         if (err) throw err
+
+         connection.query('DELETE * from Articles WHERE id = ?', [req.params.id], (err, rows) => {
+             connection.release()
+
+             if (!err) {
+                 res.send(`article with the id ${req.params.id} has been deleted`)
+             } else {
+                 res.status(401).json({
+                     message: 'problem deleting the one article'
+                 })
+             }
+         })
+     })
+ }
+
  module.exports = {
-     getArticles
+     getArticles,
+     getOneArticle, //just created
+     deleteOneArticle// just created
  }
