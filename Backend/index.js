@@ -1,6 +1,7 @@
 const express = require('express')
 const app = express()
 const helmet = require('helmet')
+const cors = require('cors')
 const articlesRoute = require('./routes/articles')
 
 require('dotenv').config
@@ -9,8 +10,9 @@ require('dotenv').config
 //Middleware
 app.use(express.json())
 app.use(helmet())
+app.use(cors())
 
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 3001
 
 //ROUTES
 app.use('/vimotiv/blog', articlesRoute)

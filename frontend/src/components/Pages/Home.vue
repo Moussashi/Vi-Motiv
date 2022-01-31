@@ -1,130 +1,146 @@
 <template>
-<the-header></the-header>
-  <section id="welcome" class="card" @click="toggleVi()">
-    <h1>Welcome to Vi Motiv</h1>
-      <p>Productivity tips to change your life</p>
-      <p>Start your journey here and reach new heights</p>
-      
-  </section>
+  <the-header></the-header>
 
-  <section id="News" class="card" @click="toggleNews()">
-    <h1>News</h1>
-    <transition name="paragraphs">
-      <p v-if="newsCard">News on the tech world</p>
-    </transition>
+  <section id="mainContent" >
+      <div id="title" :class="color">
+        <h1 v-if="!showSecondTitle">Reach New Heights in the dark</h1>
+        <h1 v-else>Then Bring it to lights for the world</h1>
+        <button @click="toggleTitle"> {{ buttonTxt }} </button> <!-- will be fontawesome arrow also will toggle -->
+      </div>
   </section>
+    <nav>
+      <img src="../../../public/News-Image.jpeg" alt="">
+      <p>The way to get started is to stop talking and begin doing</p>
+      <img src="../../../public/blog-image.jpeg" alt="">
+    </nav>
 
-  <section id="Blog" class="card" @click="toggleBlog()">
-    <h1>Blog</h1>
-    <transition name="paragraphs">
-      <p v-if="blogCard">Articles to give you the steps and techniques to learn faster</p>
-    </transition>
-  </section>
+    <transition-group id="phrases" tag="ul">
+      <li 
+        v-for="ph in phrases"
+        :key="ph"
+        data-aos="fade-up-right"
+        data-aos-duration="1500"
+        data-aos-offset="100"
+        class="phrases"> 
+        
+        {{ ph }} 
+        
+        </li>
+    </transition-group>
 
-  <section id="Forum" class="card" @click="toggleForum()">
-    <h1>Forum</h1>
-    <transition name="paragraphs">
-      <p v-if="forumCard">Comunity feed to share your experiences and connect with people</p>
-    </transition>
-  </section>
-
-  <section id="Profile" class="card" @click="toggleProfile()">
-    <h1>Profile</h1>
-    <transition name="paragraphs">
-      <p v-if="profileCard">Your home</p>
-    </transition>
-  </section>
-
-<router-view></router-view>
 </template>
 
 <script>
 import TheHeader from '../UI/TheHeader.vue'
 export default {
-  components: { 
-    TheHeader 
+  components: {
+    TheHeader
   },
-  name: 'HelloWorld',
   data() {
+
+    const phrases = [
+      'This is a first try',
+      'For a Locomotiv scroll',
+      'You need to work more',
+      'to become like your dad',
+      'Thats your pursuit to Happyness'
+    ]
+
     return {
-      newsCard: false,
-      blogCard: false,
-      forumCard: false,
-      profileCard: false,
+      showSecondTitle: false,
+      color: '',
+      buttonTxt: 'Then...',
+      phrases,
     }
   },
   methods: {
-    toggleVi() {
-      this.ViCard = !this.ViCard
+    toggleTitle() {
+      this.showSecondTitle = !this.showSecondTitle
+
+      if (this.showSecondTitle === true) {
+        this.color = 'white'
+        this.buttonTxt = ':)' //find a font awesome
+      } else if (this.showSecondTitle === false) {
+        this.buttonTxt = 'Then...'
+        this.color = 'black'
+      }
     },
-    toggleNews() {
-      this.newsCard = !this.newsCard
-    },
-    toggleBlog() {
-      this.blogCard = !this.blogCard
-    },
-    toggleForum() {
-      this.forumCard = !this.forumCard
-    },
-    toggleProfile() {
-      this.profileCard = !this.profileCard
-    }
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style>
+<style scoped>
 * {
-  background-color: initial;
+  outline: white solid 2px
 }
-
-.card {
-  width: 90%;
-  padding: 1%;
-  background-color: white;
-  color: #2c3e50;
-  box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+#mainContent {
+  display: flex;
+  justify-content: center;
+  border: burlywood 5px solid;
+}
+#title {
   text-align: center;
+  padding: 10%;
+  width: 100vw;
+}
+#title h1 {
+  font-size: 5vw;
+}
+#title button {
+  font-family: Lobster;
+  padding: 1% 2%;
+}
+nav {
   margin: auto;
-  margin-bottom: 1.1vw;
-}
-.card:hover {
-  animation: cardGrow 0.3s forwards;
-}
-
-h1, p {
-  margin-left: 10%;
-}
-.paragraphs-enter-active {
-  animation: paraEnter 1s forwards;
-}
-.paragraphs-leave-active {
-  animation: paraLeave 1s forwards;
-}
-@keyframes cardGrow {
-  to {
-    background: rgba(235, 233, 233, 0.05)
-  }
+  width: 80vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 3vw;
 }
 
-@keyframes paraEnter {
-  from {
-    opacity: 0;
-  }
+nav p {
+  width: 80vw;
+  padding: 10%;
+}
+nav p:hover {
+  background-color: white;
+  color: black;
+  padding: 10%;
+}
+button {
+  border: white solid 2px;
+}
+.white {
+  animation: turnWhite 1.5s forwards;
+  color: black;
+}
+.black {
+  animation: turnBlack 2s backwards;
+  color: white;
+}
+#phrases {
+  margin-bottom: 10vh;
+  width: 90vw;
+  margin: auto;
+  text-align: center;
+}
+.phrases {
+  height: 15vh;
+  list-style: none;
+  font-size: 2rem;
+  margin: auto;
+  padding: 10vh;
+}
+@keyframes turnWhite {
   to {
-    opacity: 1;
+    background-color: white;
   }
 }
-@keyframes paraLeave {
-  from {
-    transform: scaleX(-30px);
-    opacity: 0;
-  }
+@keyframes turnBlack {
   to {
-    transform: scaleX(0);
-    opacity: 1;
+    background-color: Black;
   }
 }
-
 </style>

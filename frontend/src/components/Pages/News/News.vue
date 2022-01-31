@@ -3,10 +3,16 @@
     <h1>
         Awesome News
     </h1>
-        <ul>
+        <transition-group
+            tag="ul"
+            appear
+            @before-enter="articlesAppear"
+        >
             <all-articles
-                v-for="art in article" 
+                tag="li"
+                v-for="(art, index) in article" 
                 :key="art.id"
+                :data-index="index"
                 :title="art.title"
                 :description="art.description"
                 :img="art.urlToImage"
@@ -14,26 +20,38 @@
                 :url="art.url"
                 :publishedAt="art.publishedAt"
             ></all-articles>
-        </ul>
+        </transition-group>
+    <div id="loading" v-if="article.length === 0"> Loading... </div>
 </template>
 
 <script>
+import gsap from 'gsap'
 import allArticles from './article.vue'
-import TheHeader from '../UI/TheHeader.vue'
+import TheHeader from '../../UI/TheHeader.vue'
 export default {
     components: {
         allArticles,
         TheHeader
     },
     data() {
+        const articlesAppear = (el) => {
+            gsap.from(el, { 
+                duration: 1, 
+                x: -100, 
+                opacity: 0,
+                delay: el.dataset.index * 0.2,
+                stagger: 0.2,
+                ease: 'power1' })
+        }
         return {
+            articlesAppear,
             article: []
         }
     },
     methods: {
          async getArticle() {
 
-            await fetch('https://newsapi.org/v2/everything?q=tesla&from=2021-12-14&sortBy=publishedAt&apiKey=99a940e7327e4be7bccbdf507eb0df2e')
+            await fetch('https://newsapi.org/v2/everything?q=tesla&from=2021-12-30&sortBy=publishedAt&apiKey=99a940e7327e4be7bccbdf507eb0df2e')
                 .then(response => {
                     if (response.ok) {
                         return response.json()
@@ -70,3 +88,7 @@ ul {
     margin: auto;
 }
 </style>
+
+//Gsap doesn't work on the component. Try to find a way out
+implemement locomotiv scroll if possible
+

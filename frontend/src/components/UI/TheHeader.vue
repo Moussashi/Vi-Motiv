@@ -5,38 +5,58 @@
                 <img src="../../../public/Vi-Motiv.png" alt="Logo Vi Motiv">
             </router-link>
         </div>
-
-        <ul>
-            <router-link to="/ViMotiv/news" class="list"> News</router-link>
-            <router-link to="/ViMotiv/blog" class="list"> Blog </router-link>
-            <router-link to="/ViMotiv/forum" class="list"> Forum </router-link>
-            <router-link to="/ViMotiv/profile" class="list"> Profile </router-link>
-        </ul>
+        
+        <transition
+        appear
+        @enter="ulAppear"
+        >
+            <ul>
+                <router-link to="/ViMotiv/news" class="list"> News</router-link>
+                <router-link to="/ViMotiv/blog" class="list"> Blog </router-link>
+                <router-link to="/ViMotiv/forum" class="list"> Forum </router-link>
+                <router-link to="/ViMotiv/profile" class=" list"> Profile </router-link>
+            </ul>
+        </transition>
         
     </header>
 </template>
+
+<script>
+import { gsap } from 'gsap'
+export default {
+    data() {
+        const ulAppear = (el) => {
+            gsap.from(el, {duration: 3, x: -100, opacity: 0, ease: 'power2  '})
+        }
+        return {ulAppear}
+    },
+}
+</script>
 
 <style scoped>
 header {
     display: flex;
 }
 #logo {
-    width: 50%;
+    width: 57vw;
+    background-color: white;
     align-items: center;
 }
 img {
     width: 60%;
     margin-right: 20%;
+    padding: 0;
 }
 ul {
+    border: blanchedalmond solid 1px;
     display: flex;
-    width: 50%;
+    width: 50vw;
     align-items: center;
     justify-content: space-evenly;
     list-style: none;
 }
 .list {
-    color: #2c3e50;
+    color: white;
     font-weight: bold;
     font-size: 2vw;
 }
